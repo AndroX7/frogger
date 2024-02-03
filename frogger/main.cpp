@@ -118,20 +118,20 @@ void bugMovement(){
                 if(tile.x==bug.x){ //ada di x 
                         //Cek bergerak ke kanan
                         if((tile.isLog||tile.isTurtle)&&(tile.y==bug.y+1&&bug.isGoingRight)){
-                            cout<<"Gerak Kanan"<<endl;
+                            //"Gerak ke Kanan"
                             bug.y=bug.y+1;
                             break;
-                        }else if((bug.isGoingRight)&&(tile.isWater&&tile.y==bug.y+1)){
-                            cout<<"Sampe Ujung Gerak Ke kiri"<<endl;
+                        }else if((bug.isGoingRight)&&((tile.isWater&&tile.y==bug.y+1)||bug.y+1>8)){
+                            //"Sampe Ujung kanan lalu  Gerak Ke kiri"
                             bug.y=bug.y-1;
                             bug.isGoingLeft=true;
                             break;
                         }else if((tile.isLog||tile.isTurtle)&&(tile.y==bug.y-1&&bug.isGoingLeft)){
-                            cout<<"Gerak Kiri"<<endl;
+                            // "Gerak ke Kiri"
                             bug.y=bug.y-1;
                             break;
-                        }else if((bug.isGoingLeft)&&(tile.isWater&&tile.y==bug.y-1)){
-                            cout<<"Sampe Ujung Gerak Ke Kanan"<<endl;
+                        }else if((bug.isGoingLeft)&&((tile.isWater&&tile.y==bug.y-1)||bug.y-1<0)){
+                            //"Sampe Ujung kiri lalu  Gerak Ke kanan"
                             bug.y=bug.y+1;
                             bug.isGoingRight=true;
                             bug.isGoingLeft=false;
