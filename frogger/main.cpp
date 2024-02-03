@@ -70,6 +70,8 @@ public:
     //Koordinat Bug
     int x;
     int y;
+    bool isGoingRight;
+    bool isGoingLeft;
 };
 
 
@@ -114,16 +116,36 @@ void bugMovement(){
     for (Insect& bug : daftarBug) {
         for (TileData& tile : daftarTile) {
                 if(tile.x==bug.x){ //ada di x 
-                    if((tile.isLog||tile.isTurtle)&&(tile.y==bug.y+1)){
                         //Cek bergerak ke kanan
-                        bug.y=bug.y+1;
-                        break;
-                    }
-                    // else if((tile.isLog||tile.isTurtle)&&(tile.y+1==bug.y)){
-                    //     //Cek bergerak ke kiri
-                    //     bug.y=bug.y-1;
-                    //     break;
-                    // }
+                        if((tile.isLog||tile.isTurtle)&&(tile.y==bug.y+1&&bug.isGoingRight)){
+                            cout<<"Gerak Kanan"<<endl;
+                            bug.y=bug.y+1;
+                            break;
+                        }else if((bug.isGoingRight)&&(tile.isWater&&tile.y==bug.y+1)){
+                            cout<<"Sampe Ujung Gerak Ke kiri"<<endl;
+                            bug.y=bug.y-1;
+                            bug.isGoingLeft=true;
+                            break;
+                        }else if((tile.isLog||tile.isTurtle)&&(tile.y==bug.y-1&&bug.isGoingLeft)){
+                            cout<<"Gerak Kiri"<<endl;
+                            bug.y=bug.y-1;
+                            break;
+                        }else if((bug.isGoingLeft)&&(tile.isWater&&tile.y==bug.y-1)){
+                            cout<<"Sampe Ujung Gerak Ke Kanan"<<endl;
+                            bug.y=bug.y+1;
+                            bug.isGoingRight=true;
+                            bug.isGoingLeft=false;
+                            break;
+                        }
+                }
+        }
+    }
+    for (Insect& bug : daftarBug) {
+        for (TileData& tile : daftarTile) {
+                if(tile.x==bug.x&&tile.y==bug.y){
+                    tile.isBug=true;
+                }else{
+                    tile.isBug=false;
                 }
         }
     }
@@ -241,6 +263,7 @@ void commandHandler(){
                         Insect bug;
                         bug.x=row;
                         bug.y=column;
+                        bug.isGoingRight=true;
                         daftarBug.push_back(bug);
                         tile.isBug=true;
                     }
